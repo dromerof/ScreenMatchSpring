@@ -1,5 +1,6 @@
 package com.aluracursos.ScreenMatchSpring.principal;
 
+import com.aluracursos.ScreenMatchSpring.model.DatosEpisodio;
 import com.aluracursos.ScreenMatchSpring.model.DatosSerie;
 import com.aluracursos.ScreenMatchSpring.model.DatosTemporada;
 import com.aluracursos.ScreenMatchSpring.service.ConsumoAPI;
@@ -17,7 +18,6 @@ public class Principal {
     private final ConvierteDatos conversor = new ConvierteDatos();
 
 
-
     //Metodo para mostrar el menu
     public void muestraMenu() {
         System.out.println("Por favor escribe el nombre de la serie que deseas buscar");
@@ -25,16 +25,26 @@ public class Principal {
         var nombreSerie = teclado.nextLine();
         var json = consumoApi.obtenerDatos(API_URL + nombreSerie.replace(" ", "+") + API_KEY);
         var datos = conversor.obtenerDatos(json, DatosSerie.class);
+        System.out.println(datos);
 
         //Busca los datos de todas las temporadas
         List<DatosTemporada> temporadas = new ArrayList<>();
         for (int i = 1; i <= datos.totalDeTemporadas(); i++) {
             String temporadaUrl = String.format(API_URL + nombreSerie.replace(" ", "+") + "&Season=" + i + API_KEY);
             json = consumoApi.obtenerDatos(temporadaUrl);
-            DatosTemporada datosTemporada = conversor.obtenerDatos(json, DatosTemporada.class);
+            var datosTemporada = conversor.obtenerDatos(json, DatosTemporada.class);
             temporadas.add(datosTemporada);
         }
-        temporadas.forEach(System.out::println);
+
+        //Mostrar solo el título de los episodios para las temporadas
+       /* for (int i = 0; i < datos.totalDeTemporadas(); i++) {
+            List<DatosEpisodio> episodiosTemporada = temporadas.get(i).episodios();
+            for (int j = 0; j < episodiosTemporada.size(); j++) {
+                System.out.println(episodiosTemporada.get(j).titulo());
+            }
+        }*/
+
+        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
 
     }
 }

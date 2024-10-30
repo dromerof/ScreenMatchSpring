@@ -59,12 +59,21 @@ public class Principal {
                 .flatMap(t -> t.episodios().stream())
                 .collect(Collectors.toList());
 
+
+
+
+
         //Top 5 episodios
         System.out.println("Top 5 episodios");
         datosEpisodios.stream()
                 .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
+                .peek(e -> System.out.println("Primer filtro (N/A)" + e) )
                 .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
+                .peek(e -> System.out.println("Segundo filtro para ordenar (M>m)" + e) )
+                .map(e -> e.titulo().toUpperCase())
+                .peek(e -> System.out.println("Tercer filtro para poner en mayúsculas(M>n)" + e) )
                 .limit(5)
+                .peek(e -> System.out.println("Tercer filtro para poner un limite ()" + e) )
                 .forEach(System.out::println);
 
         //Convirtiendo los datos a una lista del tipo episodio
@@ -73,7 +82,7 @@ public class Principal {
                         .map(d -> new Episodio(t.numero(), d)))
                 .collect(Collectors.toList());
 
-        episodios.forEach(System.out::println);
+        /*episodios.forEach(System.out::println);*/
 
         //Busqueda de episodios a partir de x año
         System.out.println("Por favor indidca el año desde el cual desear ver los episodios ");
@@ -84,12 +93,12 @@ public class Principal {
         LocalDate fechaBusqueda = LocalDate.of(Integer.parseInt(fecha),1,1);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        episodios.stream()
+        /*episodios.stream()
                 .filter(e -> e.getFechaDeLanzamiento() != null && e.getFechaDeLanzamiento().isAfter(fechaBusqueda))
                 .forEach(e -> System.out.println(
                         "Temporada " + e.getTemporada() +
                         "Episodio " + e.getTitulo() +
                         "Fecha de lanzamiento " + e.getFechaDeLanzamiento().format(dtf)
-                ));
+                ));*/
     }
 }

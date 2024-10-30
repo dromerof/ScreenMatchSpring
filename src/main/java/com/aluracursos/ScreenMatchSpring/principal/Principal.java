@@ -9,10 +9,7 @@ import com.aluracursos.ScreenMatchSpring.service.ConvierteDatos;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -64,7 +61,7 @@ public class Principal {
 
 
         //Top 5 episodios
-        System.out.println("Top 5 episodios");
+        /*System.out.println("Top 5 episodios");
         datosEpisodios.stream()
                 .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
                 .peek(e -> System.out.println("Primer filtro (N/A)" + e) )
@@ -74,7 +71,7 @@ public class Principal {
                 .peek(e -> System.out.println("Tercer filtro para poner en mayúsculas(M>n)" + e) )
                 .limit(5)
                 .peek(e -> System.out.println("Tercer filtro para poner un limite ()" + e) )
-                .forEach(System.out::println);
+                .forEach(System.out::println);*/
 
         //Convirtiendo los datos a una lista del tipo episodio
         List<Episodio> episodios = temporadas.stream()
@@ -85,14 +82,14 @@ public class Principal {
         /*episodios.forEach(System.out::println);*/
 
         //Busqueda de episodios a partir de x año
-        System.out.println("Por favor indidca el año desde el cual desear ver los episodios ");
+      /*  System.out.println("Por favor indidca el año desde el cual desear ver los episodios ");
 
         var fecha = teclado.nextLine();
         teclado.nextLine();
 
         LocalDate fechaBusqueda = LocalDate.of(Integer.parseInt(fecha),1,1);
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");*/
         /*episodios.stream()
                 .filter(e -> e.getFechaDeLanzamiento() != null && e.getFechaDeLanzamiento().isAfter(fechaBusqueda))
                 .forEach(e -> System.out.println(
@@ -100,5 +97,18 @@ public class Principal {
                         "Episodio " + e.getTitulo() +
                         "Fecha de lanzamiento " + e.getFechaDeLanzamiento().format(dtf)
                 ));*/
+
+        //Busca episodio por comienzo de titulo
+        System.out.println("Por favor escribe el comienzo del titulo del episodio que deseas encontrar");
+        var comienzoTitulo = teclado.nextLine();
+        final Optional<Episodio> episodioBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(comienzoTitulo.toUpperCase()))
+                .findFirst();
+        if (episodioBuscado.isPresent()){
+            System.out.println(" Episodio encontrado");
+            System.out.println(" Los datos son: " + episodioBuscado.get());
+        }else {
+            System.out.println("Episodio no encontrado ");
+        }
     }
 }

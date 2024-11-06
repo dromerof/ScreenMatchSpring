@@ -15,6 +15,7 @@ public class Principal {
     private final Scanner teclado = new Scanner(System.in);
     private final ConsumoAPI consumoApi = new ConsumoAPI();
     private final ConvierteDatos conversor = new ConvierteDatos();
+    private final List<DatosSerie> datosSeries = new ArrayList<>();
 
     private final String API_URL;
     private final String API_KEY;
@@ -31,11 +32,11 @@ public class Principal {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar series
-                    2 - Buscar episodios
-                    3 - Mostrar series buscadas
-                    0 - Salir
-                   """;
+                     1 - Buscar series
+                     2 - Buscar episodios
+                     3 - Mostrar series buscadas
+                     0 - Salir
+                    """;
             System.out.println(menu);
             opcion = teclado.nextInt();
             teclado.nextLine();
@@ -46,6 +47,10 @@ public class Principal {
                     break;
                 case 2:
                     buscarEpisodioPorSerie();
+                    break;
+
+                case 3:
+                    mostrarSeriesBuscadas();
                     break;
 
                 case 0:
@@ -81,9 +86,13 @@ public class Principal {
 
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
+        datosSeries.add(datos);
         System.out.println(datos);
     }
 
+    private void mostrarSeriesBuscadas() {
+        datosSeries.forEach(System.out::println);
+    }
 
 }
 

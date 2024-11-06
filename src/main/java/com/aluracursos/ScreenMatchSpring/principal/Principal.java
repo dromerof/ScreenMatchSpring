@@ -4,6 +4,7 @@ import com.aluracursos.ScreenMatchSpring.model.DatosSerie;
 import com.aluracursos.ScreenMatchSpring.model.DatosTemporada;
 import com.aluracursos.ScreenMatchSpring.service.ConsumoAPI;
 import com.aluracursos.ScreenMatchSpring.service.ConvierteDatos;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +14,28 @@ import java.util.Scanner;
 public class Principal {
     private final Scanner teclado = new Scanner(System.in);
     private final ConsumoAPI consumoApi = new ConsumoAPI();
-    private final String API_URL = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=4fc7c187";
     private final ConvierteDatos conversor = new ConvierteDatos();
 
+    private final String API_URL;
+    private final String API_KEY;
+
+    public Principal() {
+        Dotenv dotenv = Dotenv.load();
+
+        this.API_URL = dotenv.get("API_URL");
+        this.API_KEY = dotenv.get("API_KEY");
+    }
 
     //Metodo para mostrar el menu
     public void muestraMenu() {
         var opcion = -1;
         while (opcion != 0) {
             var menu = """
-                    1 - Buscar series\s
+                    1 - Buscar series
                     2 - Buscar episodios
                     3 - Mostrar series buscadas
-                   \s
                     0 - Salir
-                   \s""";
+                   """;
             System.out.println(menu);
             opcion = teclado.nextInt();
             teclado.nextLine();

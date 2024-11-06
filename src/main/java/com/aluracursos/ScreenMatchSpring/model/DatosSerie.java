@@ -15,4 +15,26 @@ public record DatosSerie(
         @JsonAlias("Plot") String sinopsis
 
 ) {
+    @Override
+    public String toString() {
+        return String.format(
+                "titulo = '%s'%n" +
+                        "lanzamiento = '%s'%n" +
+                        "genero = '%s'%n" +
+                        "totalDeTemporadas = %d%n" +
+                        "evaluaciones = '%s'%n" +
+                        "actores = '%s'%n" +
+                        "poster = '%s'%n" +
+                        "sinopsis = '%s'%n",
+                titulo,
+                lanzamiento,
+                genero,
+                totalDeTemporadas,
+                evaluaciones,
+                actores,
+                poster,
+                sinopsis
+        );
+    }
+
 }

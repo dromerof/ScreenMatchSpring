@@ -68,11 +68,17 @@ public class Episodio {
 
     @Override
     public String toString() {
-        return
-                "temporada=" + temporada +
-                        ", titulo='" + titulo + '\'' +
-                        ", numeroEpisodio=" + numeroEpisodio +
-                        ", evaluacion=" + evaluacion +
-                        ", fechaDeLanzamiento=" + fechaDeLanzamiento;
+        return String.format(
+                "temporada = %d%n" +
+                        "titulo = '%s'%n" +
+                        "numeroEpisodio = %d%n" +
+                        "evaluacion = %.2f%n" +
+                        "fechaDeLanzamiento = %s%n",
+                temporada,
+                titulo,
+                numeroEpisodio,
+                evaluacion,
+                fechaDeLanzamiento
+        );
     }
 }

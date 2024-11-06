@@ -1,7 +1,7 @@
 package com.aluracursos.ScreenMatchSpring.model;
 
 public enum Categoria {
-    ACCCIN("Action"),
+    ACCION("Action"),
     ROMANCE("Romance"),
     COMEDIA("Comedy"),
     DRAMA("Drama"),
@@ -9,7 +9,7 @@ public enum Categoria {
 
     private String categoriaOmdb;
 
-    Categoria(String categoriaOmdb){
+    Categoria(String categoriaOmdb) {
         this.categoriaOmdb = categoriaOmdb;
     }
 
@@ -21,5 +21,4 @@ public enum Categoria {
         }
         throw new IllegalArgumentException("Ninguna categoria encontrada: " + text);
     }
-
 }

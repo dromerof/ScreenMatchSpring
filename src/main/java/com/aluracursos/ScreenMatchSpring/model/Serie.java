@@ -1,18 +1,30 @@
 package com.aluracursos.ScreenMatchSpring.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
+
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String titulo;
     private String lanzamiento;
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private Integer totalDeTemporadas;
     private Double evaluaciones;
     private String actores;
     private String poster;
     private String sinopsis;
+    private List<Episodio> episodios;
 
-    public Serie(DatosSerie datosSerie){
+    public Serie(DatosSerie datosSerie) {
         this.titulo = datosSerie.titulo();
         this.lanzamiento = datosSerie.lanzamiento();
         this.genero = Categoria.fromString(datosSerie.genero().split(",")[0]);
@@ -45,6 +57,13 @@ public class Serie {
         );
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitulo() {
         return titulo;

@@ -20,15 +20,8 @@ public class Principal {
     private final ConvierteDatos conversor = new ConvierteDatos();
     private final List<DatosSerie> datosSeries = new ArrayList<>();
 
-    private final String API_URL;
-    private final String API_KEY;
+    private final Dotenv dotenv = Dotenv.load();
 
-    public Principal() {
-        Dotenv dotenv = Dotenv.load();
-
-        this.API_URL = dotenv.get("API_URL");
-        this.API_KEY = dotenv.get("API_KEY");
-    }
 
     //Metodo para mostrar el menu
     public void muestraMenu() {
@@ -69,7 +62,7 @@ public class Principal {
     private DatosSerie getDatosSerie() {
         System.out.println("Escribe el nombre de la serie que deseas buscar");
         var nombreSerie = teclado.nextLine();
-        var json = consumoApi.obtenerDatos(API_URL + nombreSerie.replace(" ", "+") + API_KEY);
+        var json = consumoApi.obtenerDatos(dotenv.get("API_URL") + nombreSerie.replace(" ", "+") + dotenv.get("API_KEY"));
         System.out.println(json);
         DatosSerie datos = conversor.obtenerDatos(json, DatosSerie.class);
         return datos;
@@ -80,7 +73,7 @@ public class Principal {
         List<DatosTemporada> temporadas = new ArrayList<>();
 
         for (int i = 1; i <= datosSerie.totalDeTemporadas(); i++) {
-            var json = consumoApi.obtenerDatos(API_URL + datosSerie.titulo().replace(" ", "+") + "&season=" + i + API_KEY);
+            var json = consumoApi.obtenerDatos(dotenv.get("API_URL") + datosSerie.titulo().replace(" ", "+") + "&season=" + i + dotenv.get("API_KEY"));
             DatosTemporada datosTemporada = conversor.obtenerDatos(json, DatosTemporada.class);
             temporadas.add(datosTemporada);
         }

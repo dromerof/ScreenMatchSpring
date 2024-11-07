@@ -3,6 +3,7 @@ package com.aluracursos.ScreenMatchSpring.principal;
 import com.aluracursos.ScreenMatchSpring.model.DatosSerie;
 import com.aluracursos.ScreenMatchSpring.model.DatosTemporada;
 import com.aluracursos.ScreenMatchSpring.model.Serie;
+import com.aluracursos.ScreenMatchSpring.repository.SerieRepository;
 import com.aluracursos.ScreenMatchSpring.service.ConsumoAPI;
 import com.aluracursos.ScreenMatchSpring.service.ConvierteDatos;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -19,8 +20,12 @@ public class Principal {
     private final ConsumoAPI consumoApi = new ConsumoAPI();
     private final ConvierteDatos conversor = new ConvierteDatos();
     private final List<DatosSerie> datosSeries = new ArrayList<>();
-
     private final Dotenv dotenv = Dotenv.load();
+    private SerieRepository repository;
+
+    public Principal(SerieRepository repository) {
+        this.repository = repository;
+    }
 
 
     //Metodo para mostrar el menu
@@ -82,7 +87,8 @@ public class Principal {
 
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
-        datosSeries.add(datos);
+        Serie serie = new Serie(datos);
+        repository.save(serie);
         System.out.println(datos);
     }
 

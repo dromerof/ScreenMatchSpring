@@ -1,5 +1,6 @@
 package com.aluracursos.ScreenMatchSpring.repository;
 
+import com.aluracursos.ScreenMatchSpring.model.Categoria;
 import com.aluracursos.ScreenMatchSpring.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,5 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     Optional<Serie> findByTituloContainsIgnoreCase(String nombreSerie);
 
     List<Serie> findTop5ByOrderByEvaluacionesDesc();
+    List<Serie> findByGenero(Categoria categoria);
 }

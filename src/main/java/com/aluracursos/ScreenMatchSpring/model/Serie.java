@@ -41,26 +41,15 @@ public class Serie {
 
     @Override
     public String toString() {
-        return String.format(
-                "genero = %s%n" +
-                        "titulo = '%s'%n" +
-                        "lanzamiento = '%s'%n" +
-                        "totalDeTemporadas = %d%n" +
-                        "evaluaciones = %.2f%n" +
-                        "actores = '%s'%n" +
-                        "poster = '%s'%n" +
-                        "sinopsis = '%s'%n" +
-                        "episodios = '%s'%n",
-                genero,
-                titulo,
-                lanzamiento,
-                totalDeTemporadas,
-                evaluaciones,
-                actores,
-                poster,
-                sinopsis,
-                episodios
-        );
+        return  "genero=" + genero +
+                "titulo='" + titulo + '\'' +
+                ", totalTemporadas=" + totalDeTemporadas +
+                ", evaluacion=" + evaluaciones +
+                ", poster='" + poster + '\'' +
+                ", actores='" + actores + '\'' +
+                ", sinopsis='" + sinopsis + '\'' +
+                ", episodios='" + episodios + '\'';
+
     }
 
     public Long getId() {

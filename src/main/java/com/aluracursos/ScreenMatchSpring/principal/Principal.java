@@ -36,6 +36,7 @@ public class Principal {
                      5 - Top 5 mejores series
                      6 - Buscar series por categorías
                      7 - Filtrar series
+                     8 - Buscar episodios por titulo
                      0 - Salir
                     """;
             System.out.println(menu);
@@ -64,6 +65,9 @@ public class Principal {
                     break;
                 case 7:
                     filtrarSeriesPorTemporadaYEvaluacion();
+                    break;
+                case 8:
+                    buscarEpisodiosPorTitulo();
                     break;
 
                 case 0:
@@ -136,19 +140,19 @@ public class Principal {
         var nombreSerie = teclado.nextLine();
         Optional<Serie> serieBuscada = repository.findByTituloContainsIgnoreCase(nombreSerie);
 
-        if (serieBuscada.isPresent()){
+        if (serieBuscada.isPresent()) {
             System.out.println("La serie buscada es: " + serieBuscada.get());
-        }else {
+        } else {
             System.out.println("Serie no encontrada");
         }
     }
 
-    private void buscarTop5Series(){
+    private void buscarTop5Series() {
         List<Serie> topSeries = repository.findTop5ByOrderByEvaluacionesDesc();
         topSeries.forEach(s -> System.out.println("Serie: " + s.getTitulo() + "Evaluacion: " + s.getEvaluaciones()));
     }
 
-    private void buscarSeriesPorCategorias(){
+    private void buscarSeriesPorCategorias() {
         System.out.println("Escribe el genero/categoria de la serie que deseas buscar: ");
         var genero = teclado.nextLine();
         var categoria = Categoria.fromEspanol(genero);
@@ -158,7 +162,7 @@ public class Principal {
 
     }
 
-    public void filtrarSeriesPorTemporadaYEvaluacion(){
+    public void filtrarSeriesPorTemporadaYEvaluacion() {
         System.out.println("¿Filtrar séries con cuántas temporadas? ");
         var totalDeTemporadas = teclado.nextInt();
         teclado.nextLine();
@@ -169,6 +173,15 @@ public class Principal {
         System.out.println("*** Series filtradas ***");
         filtroSeries.forEach(s ->
                 System.out.println(s.getTitulo() + "  - evaluacion: " + s.getEvaluaciones()));
+    }
+
+    private void buscarEpisodiosPorTitulo() {
+        System.out.println("Escribe el nombre del episodio que deseas buscar");
+        var nombreEpisodio = teclado.nextLine();
+        List<Episodio> episodiosEncontrados = repository.episodiosPorNombre(nombreEpisodio);
+        episodiosEncontrados.forEach(e -> System.out.printf("Serie: %s Temporada %s Episodio %s Evaluacion %s\n",
+                e.getSerie(), e.getTemporada(), e.getNumeroEpisodio(), e.getEvaluacion()
+        ));
     }
 
 }

@@ -35,6 +35,7 @@ public class Principal {
                      4 - Buscar series por titulo 
                      5 - Top 5 mejores series
                      6 - Buscar series por categorías
+                     7 - Filtrar series
                      0 - Salir
                     """;
             System.out.println(menu);
@@ -60,6 +61,9 @@ public class Principal {
                     break;
                 case 6:
                     buscarSeriesPorCategorias();
+                    break;
+                case 7:
+                    filtrarSeriesPorTemporadaYEvaluacion();
                     break;
 
                 case 0:
@@ -152,6 +156,19 @@ public class Principal {
         System.out.println("Las series de la categoria " + genero);
         seriesPorCategoria.forEach(System.out::println);
 
+    }
+
+    public void filtrarSeriesPorTemporadaYEvaluacion(){
+        System.out.println("¿Filtrar séries con cuántas temporadas? ");
+        var totalDeTemporadas = teclado.nextInt();
+        teclado.nextLine();
+        System.out.println("¿Com evaluación apartir de cuál valor? ");
+        var evaluaciones = teclado.nextDouble();
+        teclado.nextLine();
+        List<Serie> filtroSeries = repository.findByTotalDeTemporadasLessThanEqualAndEvaluacionesGreaterThanEqual(totalDeTemporadas, evaluaciones);
+        System.out.println("*** Series filtradas ***");
+        filtroSeries.forEach(s ->
+                System.out.println(s.getTitulo() + "  - evaluacion: " + s.getEvaluaciones()));
     }
 
 }

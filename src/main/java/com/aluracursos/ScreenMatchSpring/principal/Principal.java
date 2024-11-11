@@ -165,7 +165,7 @@ public class Principal {
         System.out.println("¿Com evaluación apartir de cuál valor? ");
         var evaluaciones = teclado.nextDouble();
         teclado.nextLine();
-        List<Serie> filtroSeries = repository.findByTotalDeTemporadasLessThanEqualAndEvaluacionesGreaterThanEqual(totalDeTemporadas, evaluaciones);
+        List<Serie> filtroSeries = repository.seriesPorTemporadasYEvaluacion(totalDeTemporadas, evaluaciones);
         System.out.println("*** Series filtradas ***");
         filtroSeries.forEach(s ->
                 System.out.println(s.getTitulo() + "  - evaluacion: " + s.getEvaluaciones()));

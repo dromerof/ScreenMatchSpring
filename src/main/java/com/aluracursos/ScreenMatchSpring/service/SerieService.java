@@ -1,5 +1,6 @@
 package com.aluracursos.ScreenMatchSpring.service;
 
+import com.aluracursos.ScreenMatchSpring.dto.EpisodioDTO;
 import com.aluracursos.ScreenMatchSpring.dto.SerieDTO;
 import com.aluracursos.ScreenMatchSpring.model.Serie;
 import com.aluracursos.ScreenMatchSpring.repository.SerieRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,16 +25,38 @@ public class SerieService {
         return convierteDatos(repository.findTop5ByOrderByEvaluacionesDesc());
     }
 
-    public List<SerieDTO>  obtenerSeriesRecientes(){
+    public List<SerieDTO> obtenerSeriesRecientes() {
         return convierteDatos(repository.seriesRecientes());
     }
 
-    public List<SerieDTO> convierteDatos(List<Serie> serie){
+    public List<SerieDTO> convierteDatos(List<Serie> serie) {
 
         return serie.stream()
-                .map(s -> new SerieDTO(s.getTitulo(), s.getLanzamiento(),
+                .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getLanzamiento(),
                         s.getGenero(), s.getTotalDeTemporadas(), s.getEvaluaciones(),
                         s.getActores(), s.getPoster(), s.getSinopsis()))
                 .collect(Collectors.toList());
+    }
+
+    public SerieDTO obtenerPorId(Long id) {
+        Optional<Serie> serie = repository.findById(id);
+        if (serie.isPresent()){
+            Serie s = serie.get();
+            return  new SerieDTO(s.getId(), s.getTitulo(), s.getLanzamiento(),
+                    s.getGenero(), s.getTotalDeTemporadas(), s.getEvaluaciones(),
+                    s.getActores(), s.getPoster(), s.getSinopsis());
+        }
+        return null;
+    }
+
+    public List<EpisodioDTO> obtenerTodaslasTemporadas(Long id) {
+        Optional<Serie> serie = repository.findById(id);
+        if (serie.isPresent()){
+            Serie s = serie.get();
+            return s.getEpisodios().stream()
+                    .map(e -> new EpisodioDTO(e.getTemporada(), e.getTitulo(), e.getNumeroEpisodio()))
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 }

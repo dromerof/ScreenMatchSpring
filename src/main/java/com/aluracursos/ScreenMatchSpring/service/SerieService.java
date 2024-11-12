@@ -40,9 +40,9 @@ public class SerieService {
 
     public SerieDTO obtenerPorId(Long id) {
         Optional<Serie> serie = repository.findById(id);
-        if (serie.isPresent()){
+        if (serie.isPresent()) {
             Serie s = serie.get();
-            return  new SerieDTO(s.getId(), s.getTitulo(), s.getLanzamiento(),
+            return new SerieDTO(s.getId(), s.getTitulo(), s.getLanzamiento(),
                     s.getGenero(), s.getTotalDeTemporadas(), s.getEvaluaciones(),
                     s.getActores(), s.getPoster(), s.getSinopsis());
         }
@@ -51,12 +51,19 @@ public class SerieService {
 
     public List<EpisodioDTO> obtenerTodaslasTemporadas(Long id) {
         Optional<Serie> serie = repository.findById(id);
-        if (serie.isPresent()){
+        if (serie.isPresent()) {
             Serie s = serie.get();
             return s.getEpisodios().stream()
                     .map(e -> new EpisodioDTO(e.getTemporada(), e.getTitulo(), e.getNumeroEpisodio()))
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    public List<EpisodioDTO> obtenerTemporadasPorNumero(Long id, Long numeroTemporada) {
+        return repository.obtenerTemporadasPorNumero(id, numeroTemporada).stream()
+                .map(e -> new EpisodioDTO(e.getTemporada(), e.getTitulo(), e.getNumeroEpisodio()))
+                .collect(Collectors.toList());
+
     }
 }
